@@ -1,0 +1,144 @@
+body {
+  background-color: #aa302f;
+  margin: 0;
+  font-family: Arial, sans-serif;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+#root {
+  width: 100vw;
+  height: 100vh;
+}
+
+.main-screen {
+  background-color: #fff;
+  padding: 2vh;
+  margin: 3% 3% 0 3%;
+  border: rgb(189, 188, 188) 3px solid;
+}
+
+.search-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+}
+
+.search-input {
+  width: 80%;
+  padding: 1rem;
+  font-size: 1rem;
+  border: 2px solid #dfe6e9;
+  border-radius: 10px;
+}
+
+.pokemon-list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+  margin: 0 10vw;
+  border-radius: 10px;
+  overflow: hidden; /* Ensures child elements do not extend past the rounded border */
+}
+
+.pokemon-item {
+    padding: 10px 0;
+    font-size: 1.2rem;
+    color: #333;
+    text-decoration: none;
+    width: 100%;
+    text-align: center;
+    transition: background-color 0.2s;
+  }
+
+.pokemon-item:not(:last-child) {
+  border-bottom: 1px solid #ddd; /* Add border-bottom to all items except the last one */
+}
+  
+.pokemon-item:hover {
+  background-color: #f0f0f0;
+}
+
+.pokemon-link {
+  text-decoration: none;
+  color: #333;
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+.search-page {
+  width: 100%;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.header {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  height: 65px;
+}
+
+.search-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.search-bar {
+  width: 90%;
+  padding: 10px;
+  font-size: 1rem;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  margin-top: 40px;
+  margin-bottom: 20px;
+  box-sizing: border-box;
+}
+
+.filter-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.filter-button {
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  color: #fff;
+  cursor: pointer;
+  font-size: 0.9rem;
+  text-transform: capitalize;
+  transition: transform 0.2s ease-in-out;
+}
+
+.filter-button:hover {
+  transform: scale(1.05);
+}
+
+.filter-button.active {
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.blue-circle {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 2.5rem;
+  height: 2.5rem;
+  background-color: #3498db;
+  border-radius: 50%;
+  z-index: 10;
+  margin: 0.5rem;
+  border: 0.25rem solid white;
+}
