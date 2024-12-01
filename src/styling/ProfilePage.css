@@ -24,7 +24,7 @@ body {
   box-sizing: border-box;
   overflow: hidden;
 }
-/* Header Section */
+
 .header {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -33,14 +33,12 @@ body {
 
 .top-left {
   background-color: #d14344;
-  /* Light red */
   grid-row: 1;
   grid-column: 1;
 }
 
 .top-right {
   background-color: #d14344;
-  /* Light red */
   grid-row: 1;
   grid-column: 2;
 }
@@ -54,7 +52,6 @@ body {
 
 .middle-left {
   background-color: #d14344;
-  /* Light red */
   grid-column: 1;
 }
 
@@ -64,7 +61,6 @@ body {
 
 .middle-right {
   background-color: #aa302f;
-  /* Dark red */
   grid-column: 3;
 }
 
@@ -72,18 +68,15 @@ body {
   position: fixed;
   top: 0;
   left: 0;
-  width: 2.5rem; /* Set the size relative to the font size */
-  height: 2.5rem; /* Maintain the same aspect ratio */
+  width: 2.5rem;
+  height: 2.5rem;
   background-color: #3498db;
-  border-radius: 50%; /* Ensures it stays circular */
-  z-index: 10; /* Ensure it appears above other elements */
-  margin: 0.5rem; /* Adjust margin relative to size */
-  border: 0.25rem solid white; /* Border scales with the circle size */
+  border-radius: 50%;
+  z-index: 10;
+  margin: 0.5rem;
+  border: 0.25rem solid white;
 }
 
-/* Header - End */
-
-/* Main Area - Start */
 .main-screen {
   display: flex;
   flex-direction: column;
@@ -93,6 +86,9 @@ body {
   padding: 2vh;
   margin: 3% 3% 0 3%;
   border: rgb(189, 188, 188) 3px solid;
+  border-radius: 10px;
+  min-width: 40vw;
+  align-items: center;
 }
 
 .back-link {
@@ -100,60 +96,60 @@ body {
   font-weight: bold;
   text-decoration: none;
   color: #333;
-  margin-bottom: 1rem; /* Add space below the back button */
-  align-self: flex-start; /* Align to the top-left */
+  margin-bottom: 1rem;
+  align-self: flex-start;
 }
 
 .columns {
   display: flex;
-  gap: 2vw; /* Space between the two columns */
-  flex: 1; /* Ensure the content fills the available space */
-  align-items: flex-start; /* Align items to the top */
+  gap: 10vw;
+  flex: 1;
+  align-items: flex-start;
 }
 
 .left-column {
   display: flex;
-  flex-direction: column; /* Stack items vertically */
-  align-items: center; /* Center items horizontally in the column */
-  flex: 1; /* Ensure it takes up equal space with the right column */
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
 }
 
 .poke-image {
-  width: 300px; /* Adjust size as needed */
+  width: 300px;
   height: 300px;
   background-color: #dfe6e9;
   border-radius: 10px;
-  margin: 0 auto; /* Center the image */
-  flex-shrink: 0; /* Prevent the image from shrinking */
+  margin: 0 auto;
+  flex-shrink: 0;
 }
 
 .poke-details {
   display: flex;
-  flex-direction: column; /* Stack elements vertically */
-  align-items: center; /* Center align the text */
-  text-align: center; /* Align all text to the center */
-  gap: 5px; /* Space between the elements */
+  flex-direction: column; 
+  align-items: center;
+  text-align: center;
+  gap: 5px; 
   margin-top: 20px;
 }
 
 .poke-name {
-  margin: 0; /* Remove default margin */
-  font-size: 2.5rem; /* Adjust font size */
+  margin: 0;
+  font-size: 2.5rem;
   font-weight: bold;
 }
 
 .poke-types {
   display: flex;
-  gap: 1vh; /* Space between types */
-  margin-top: 10px; /* Add space above the types */
+  gap: 1vh;
+  margin-top: 10px;
 }
 
 .type {
   padding: 0.5vh 1vh;
   border-radius: 5px;
-  color: #fff; /* Ensure text contrast */
+  color: #fff;
   font-size: 0.9em;
-  text-transform: capitalize; /* Capitalize the type names */
+  text-transform: capitalize;
 }
 
 .poke-details p {
@@ -161,33 +157,32 @@ body {
   margin-top: 10px;
 }
 
-/* Moves and Stats section */
 .right-column {
-  flex: 1; /* Takes up half the space */
+  flex: 1;
   display: flex;
-  flex-direction: column; /* Stack moves and stats sections vertically */
-  align-items: flex-start; /* Align content to the left */
-  gap: 20px; /* Space between sections */
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 20px;
 }
 
 .moves-label,
 .stats-label {
-  font-size: 1.5rem; /* Adjust the size to match the emphasis needed */
-  font-weight: bold; /* Make the labels bold for emphasis */
-  color: #333; /* Use a contrasting color for readability */
-  margin-top: 0; /* Remove unnecessary top margin */
-  margin-bottom: 10px; /* Add some space below the label */
-  text-align: left; /* Align the labels to the left */
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #333;
+  margin-top: 0;
+  margin-bottom: 10px;
+  text-align: left;
 }
 
 .moves-group {
   background-color: #a2d5f5;
   padding: 10px;
   border-radius: 10px;
-  display: inline-flex; /* Change to inline-flex to allow the container to shrink to fit content */
-  flex-wrap: wrap; /* Wrap content to next row if more than 4 moves */
+  display: inline-flex;
+  flex-wrap: wrap;
   gap: 10px;
-  max-width: 100%; /* Ensure it doesn't exceed the container width */
+  max-width: 100%;
 }
 
 .move-item {
@@ -209,7 +204,7 @@ body {
   border-radius: 10px;
 }
 
-.stat-item {
+.profile-stat-item {
   display: flex;
   justify-content: space-between;
   padding: 5px;
@@ -218,43 +213,47 @@ body {
   margin-bottom: 5px;
 }
 
-.stat-name {
+.profile-stat-name {
   font-weight: bold;
 }
 
-.stat-value {
+.profile-stat-value {
   margin-left: 3vh;
 }
+
 .block-group {
   display: grid;
-  grid-template-columns: repeat(4, 1fr); /* 4 blocks per row */
-  gap: 2px; /* Small visible gap between blocks */
-  width: fit-content; /* Adjusts to the size of the blocks */
-  background-color: #add8e6; /* Light blue background */
-  border-radius: 10px; /* Rounded outer corners */
-  padding: 2px; /* Padding around the block group */
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2px;
+  width: fit-content;
+  background-color: #add8e6;
+  border-radius: 10px;
+  padding: 2px;
   box-sizing: border-box;
 }
 
 .block {
-  width: 100px; /* Adjust size as needed */
-  height: 25px; /* Adjust size as needed */
-  background-color: #87ceeb; /* Blue color for the blocks */
-  border-radius: 0; /* No rounding for inner blocks */
+  width: 100px;
+  height: 25px;
+  background-color: #87ceeb;
+  border-radius: 0;
   color: white;
   text-transform: capitalize;
 }
 
-/* Outer edge rounding */
 .block-group .block:nth-child(1) {
   border-top-left-radius: 10px;
 }
+
 .block-group .block:nth-child(4) {
   border-top-right-radius: 10px;
 }
+
 .block-group .block:nth-child(5) {
   border-bottom-left-radius: 10px;
 }
+
 .block-group .block:nth-child(8) {
   border-bottom-right-radius: 10px;
 }
+
