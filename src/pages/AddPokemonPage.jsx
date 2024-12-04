@@ -1,85 +1,191 @@
-import React, { useState } from 'react';
-import '../styling/AddPokemonPage.css';
-import { Link } from 'react-router-dom';
-import { typeColors } from '../static';
-import {typeOptions } from '../static';
+import React, { useState, useEffect } from "react";
+import "../styling/AddPokemonPage.css";
+import { Link } from "react-router-dom";
 
-const FormPage = () => {
+const AddPokemonPage = () => {
     const [selectedTypes, setSelectedTypes] = useState([]);
     const [stats, setStats] = useState({
-        hp: '',
-        attack: '',
-        defense: '',
-        special_attack: '',
-        special_defense: '',
-        speed: ''
+        hp: "",
+        attack: "",
+        defense: "",
+        special_attack: "",
+        special_defense: "",
+        speed: "",
     });
     const [moves, setMoves] = useState([]);
-    const [currentMove, setCurrentMove] = useState('');
+    const [searchQuery, setSearchQuery] = useState("");
+    const [moveResults, setMoveResults] = useState([]);
+    const [typeOptions, setTypeOptions] = useState([]);
+
+    // Fetch types from API
+    useEffect(() => {
+        fetch("http://localhost:8000/types")
+            .then((response) => response.json())
+            .then((data) => setTypeOptions(data))
+            .catch((error) => console.error("Error fetching types:", error));
+    }, []);
+
+    // Fetch moves based on the search query
+    useEffect(() => {
+        if (searchQuery.trim() === "") {
+            setMoveResults([]);
+            return;
+        }
+
+        fetch("http://localhost:8000/moves")
+            .then((response) => response.json())
+            .then((data) => {
+                const filteredMoves = data.filter((move) =>
+                    move.name.toLowerCase().includes(searchQuery.toLowerCase())
+                );
+                setMoveResults(filteredMoves);
+            })
+            .catch((error) => console.error("Error fetching moves:", error));
+    }, [searchQuery]);
 
     const handleTypeClick = (type) => {
-        if (selectedTypes.includes(type)) {
-            setSelectedTypes(selectedTypes.filter(selectedType => selectedType !== type));
+        if (selectedTypes.includes(type.id)) {
+            setSelectedTypes(selectedTypes.filter((selectedType) => selectedType !== type.id));
         } else if (selectedTypes.length < 2) {
-            setSelectedTypes([...selectedTypes, type]);
+            setSelectedTypes([...selectedTypes, type.id]);
         }
     };
 
     const handleStatChange = (e) => {
         const { name, value } = e.target;
-        setStats({ ...stats, [name]: value });
+        setStats((prevStats) => ({ ...prevStats, [name]: value }));
     };
 
-    const handleMoveChange = (e) => {
-        setCurrentMove(e.target.value);
+    const handleMoveSearchChange = (e) => {
+        setSearchQuery(e.target.value);
     };
 
-    const handleMoveSubmit = (e) => {
-        e.preventDefault();
-        if (currentMove.trim() !== '' && !moves.includes(currentMove.trim())) {
-            setMoves([...moves, currentMove.trim()]);
-            setCurrentMove('');
+    const handleMoveSelect = (move) => {
+        if (!moves.some((m) => m.id === move.id)) {
+            setMoves([...moves, move]);
         }
+        setSearchQuery(""); // Clear the search input
+        setMoveResults([]); // Clear the search results
     };
 
     const removeMove = (move) => {
-        setMoves(moves.filter(m => m !== move));
+        setMoves(moves.filter((m) => m.id !== move.id));
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log('Selected Types:', selectedTypes);
-        console.log('Stats:', stats);
-        console.log('Moves:', moves);
+
+        const newPokemon = {
+            pokemon_name: document.getElementById("pokemon_name").value,
+            species_id: parseInt(document.getElementById("species").value),
+            height: parseInt(document.getElementById("height").value),
+            weight: parseInt(document.getElementById("weight").value),
+            type: selectedTypes,
+            moves: moves.map((move) => move.id), // Only save move IDs
+            stats: {
+                hp: parseInt(stats.hp),
+                attack: parseInt(stats.attack),
+                defense: parseInt(stats.defense),
+                special_attack: parseInt(stats.special_attack),
+                special_defense: parseInt(stats.special_defense),
+                speed: parseInt(stats.speed),
+            },
+        };
+
+        try {
+            const response = await fetch("http://localhost:8000/pokemon", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ pokemons: [newPokemon] }),
+            });
+
+            if (response.ok) {
+                alert("Pokemon added successfully!");
+            } else {
+                alert("Failed to add Pokemon.");
+            }
+        } catch (error) {
+            console.error("Error adding Pokemon:", error);
+            alert("An error occurred.");
+        }
     };
 
     return (
         <>
             <header className="header">
                 <div className="blue-circle"></div>
-                <div className="top-left"></div>
-                <div className="top-right"></div>
-                <div className="middle">
-                    <div className="middle-left"></div>
-                    <div className="diagonal"></div>
-                    <div className="middle-right"></div>
-                </div>
             </header>
 
             <div className="main-add-screen form-screen">
-                <Link to="/search" className="back-link">&larr; Back to Search</Link>
+                <Link to="/search" className="back-link">
+                    &larr; Back to Search
+                </Link>
 
                 <div className="form-container">
                     <h1 className="form-title">Add Newly Discovered Pokemon</h1>
                     <form className="custom-form" onSubmit={handleSubmit}>
                         <div className="form-group">
                             <label htmlFor="pokemon_name">Name</label>
-                            <input type="text" id="pokemon_name" className="add-pokemon-input" placeholder="Enter Pokémon's name" />
+                            <input
+                                type="text"
+                                id="pokemon_name"
+                                className="add-pokemon-input"
+                                placeholder="Enter Pokémon's name"
+                                required
+                            />
                         </div>
 
                         <div className="form-group">
-                            <label htmlFor="species">Species</label>
-                            <input type="text" id="species" className="add-pokemon-input" placeholder="Enter Pokémon's species" />
+                            <label htmlFor="species">Species ID</label>
+                            <input
+                                type="number"
+                                id="species"
+                                className="add-pokemon-input"
+                                placeholder="Enter Pokémon's species ID"
+                                required
+                            />
+                        </div>
+
+                        <div className="form-group">
+                            <label>Moves</label>
+                            <div className="add-moves-container">
+                                <input
+                                    type="text"
+                                    className="add-move-input"
+                                    placeholder="Search and select moves"
+                                    value={searchQuery}
+                                    onChange={handleMoveSearchChange}
+                                />
+                                {moveResults.length > 0 && (
+                                    <div className="move-results-dropdown">
+                                        {moveResults.map((move) => (
+                                            <div
+                                                key={move.id}
+                                                className="move-result-item"
+                                                onClick={() => handleMoveSelect(move)}
+                                            >
+                                                {move.name}
+                                            </div>
+                                        ))}
+                                    </div>
+                                )}
+                                <ul className="add-moves-list">
+                                    {moves.map((move) => (
+                                        <li key={move.id} className="add-move-item">
+                                            {move.name}
+                                            <button
+                                                type="button"
+                                                className="remove-move-button"
+                                                onClick={() => removeMove(move)}
+                                            >
+                                                ✖
+                                            </button>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
                         </div>
 
                         <div className="form-group">
@@ -87,61 +193,48 @@ const FormPage = () => {
                             <div className="type-buttons">
                                 {typeOptions.map((type) => (
                                     <button
-                                        key={type}
+                                        key={type.id}
                                         type="button"
-                                        className={`type-button ${selectedTypes.includes(type) ? 'active' : ''}`}
-                                        style={{ backgroundColor: typeColors[type] }}
+                                        className={`type-button ${selectedTypes.includes(type.id) ? "active" : ""}`}
+                                        style={{ backgroundColor: type.color }}
                                         onClick={() => handleTypeClick(type)}
                                     >
-                                        {type}
+                                        {type.name}
                                     </button>
                                 ))}
                             </div>
                         </div>
-
                         <div className="form-group">
                             <label>Stats</label>
                             <div className="add-stat-input-group">
-                                {['hp', 'attack', 'defense', 'special_attack', 'special_defense', 'speed'].map((stat) => (
-                                    <div key={stat} className="add-stat-item">
-                                        <label htmlFor={stat} className="add-stat-label">{stat.replace('_', ' ')}</label>
-                                        <input
-                                            type="number"
-                                            id={stat}
-                                            name={stat}
-                                            className="add-stat-input"
-                                            placeholder={0}
-                                            value={stats[stat]}
-                                            onChange={handleStatChange}
-                                        />
-                                    </div>
-                                ))}
+                                {Object.keys(stats).map((stat) => {
+                                    // Format the label: capitalize and replace underscores with spaces
+                                    const formattedStat = stat
+                                        .split('_') // Split words on underscore
+                                        .map((word) => word.charAt(0).toUpperCase() + word.slice(1)) // Capitalize each word
+                                        .join(' '); // Rejoin words with a space
+
+                                    return (
+                                        <div key={stat} className="add-stat-item">
+                                            <label className="add-stat-label">{formattedStat}</label>
+                                            <input
+                                                type="number"
+                                                name={stat}
+                                                className="add-stat-input"
+                                                value={stats[stat]}
+                                                onChange={handleStatChange}
+                                                placeholder={`Enter value`}
+                                                required
+                                            />
+                                        </div>
+                                    );
+                                })}
                             </div>
                         </div>
 
-                        <div className="form-group">
-    <label>Moves</label>
-    <div className="add-moves-container">
-        <input
-            type="text"
-            className="add-move-input"
-            placeholder="Enter a move and press Enter"
-            value={currentMove}
-            onChange={handleMoveChange}
-            onKeyPress={(e) => e.key === 'Enter' && handleMoveSubmit(e)}
-        />
-        <ul className="add-moves-list">
-            {moves.map((move, index) => (
-                <li key={index} className="add-move-item">
-                    {move}
-                    <button type="button" className="remove-move-button" onClick={() => removeMove(move)}>✖</button>
-                </li>
-            ))}
-        </ul>
-    </div>
-</div>
-
-                        <button type="submit" className="submit-button">Submit</button>
+                        <button type="submit" className="submit-button">
+                            Submit
+                        </button>
                     </form>
                 </div>
             </div>
@@ -149,4 +242,4 @@ const FormPage = () => {
     );
 };
 
-export default FormPage;
+export default AddPokemonPage;

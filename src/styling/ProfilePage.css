@@ -59,16 +59,45 @@ body {
   border: 0.25rem solid white;
 }
 
-.profile-main-screen {
+.profile-container {
   display: flex;
   flex-direction: column;
-  height: 77vh;
+  justify-content: space-between; /* Align children to opposite ends */
+  align-items: flex-start; /* Align vertically */
+  width: 100%; /* Take full width of the container */
+  padding: 0 20px; /* Optional: Add horizontal padding */
+  position: relative; /* For absolute positioning of delete button, if needed */
+  margin-top: 30px;
+}
+
+.delete-button {
+  background-color: #ffffff;
+  color: black;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease;
+  margin: 10px auto;
+}
+
+.delete-button:hover {
+  background-color: #ff4949;
+}
+
+.profile-main-screen {
+  margin: auto; /* Center the main profile screen horizontally */
+  display: flex;
+  flex-direction: column;
+  height: 70vh;
   background-color: #fff;
   padding: 2vh;
-  margin: 3% 3% 3% 3%;
   border: rgb(189, 188, 188) 3px solid;
   border-radius: 10px;
   align-items: center;
+  padding-right: 50px;
 }
 
 .back-link {
@@ -142,7 +171,6 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 20px;
 }
 
 /* Moves Section */
