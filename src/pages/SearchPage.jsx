@@ -6,7 +6,7 @@ const SearchPage = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const [filteredType, setFilteredType] = useState('');
     const [pokemons, setPokemons] = useState([]);
-    const [typeFilters, setTypeFilters] = useState([]); // State for type filters
+    const [typeFilters, setTypeFilters] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
@@ -41,7 +41,7 @@ const SearchPage = () => {
                     throw new Error('Failed to fetch types');
                 }
                 const types = await response.json();
-                setTypeFilters(types); // Populate the type filters with API data
+                setTypeFilters(types);
             } catch (err) {
                 console.error('Error fetching types:', err);
             }
@@ -55,7 +55,7 @@ const SearchPage = () => {
     };
 
     const handleFilterClick = (type) => {
-        setFilteredType(type === filteredType ? '' : type); // Toggle filter
+        setFilteredType(type === filteredType ? '' : type);
     };
 
     // Filter Pokémon based on search term and selected type
@@ -76,7 +76,7 @@ const SearchPage = () => {
     return (
         <>
             <header className="header">
-                <div className="blue-circle"></div>
+                <Link to="/add" className="blue-circle"></Link>
                 <div className="top-left"></div>
                 <div className="top-right"></div>
                 <div className="middle">
@@ -96,23 +96,25 @@ const SearchPage = () => {
                 />
 
                 <div className="filters-and-results">
-                    <div className="main-filter-screen">
-                        <div className="filter-buttons-column">
-                        <div className="filter-buttons-grid">
-    {typeFilters.map((type) => (
-        <button
-            key={type.id}
-            className={`filter-button ${filteredType === type.name ? 'active' : ''}`}
-            style={{
-                backgroundColor: type.color,
-                boxShadow: filteredType === type.name ? 'inset 0 0 0 2px black' : 'none', // Inset grey border
-            }}
-            onClick={() => handleFilterClick(type.name)}
-        >
-            {type.name}
-        </button>
-    ))}
-</div>
+                    <div className="left-filter-container">
+                        <div className="main-filter-screen">
+                            <div className="filter-buttons-column">
+                                <div className="filter-buttons-grid">
+                                    {typeFilters.map((type) => (
+                                        <button
+                                            key={type.id}
+                                            className={`filter-button ${filteredType === type.name ? 'active' : ''}`}
+                                            style={{
+                                                backgroundColor: type.color,
+                                                boxShadow: filteredType === type.name ? 'inset 0 0 0 2px black' : 'none',
+                                            }}
+                                            onClick={() => handleFilterClick(type.name)}
+                                        >
+                                            {type.name}
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
                         </div>
                     </div>
 

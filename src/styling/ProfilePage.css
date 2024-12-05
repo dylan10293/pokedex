@@ -46,33 +46,21 @@ body {
   background-color: #aa302f;
 }
 
-.blue-circle {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 2.5rem;
-  height: 2.5rem;
-  background-color: #3498db;
-  border-radius: 50%;
-  z-index: 10;
-  margin: 0.5rem;
-  border: 0.25rem solid white;
-}
-
 .profile-container {
   display: flex;
   flex-direction: column;
-  justify-content: space-between; /* Align children to opposite ends */
-  align-items: flex-start; /* Align vertically */
-  width: 100%; /* Take full width of the container */
-  padding: 0 20px; /* Optional: Add horizontal padding */
-  position: relative; /* For absolute positioning of delete button, if needed */
+  justify-content: space-between; 
+  align-items: flex-start;
+  width: 100%;
+  padding: 0 20px; 
+  position: relative; 
   margin-top: 30px;
 }
 
 .delete-button {
   background-color: #ffffff;
   color: black;
+  font-weight: bold;
   border: none;
   border-radius: 5px;
   padding: 10px 20px;
@@ -88,7 +76,7 @@ body {
 }
 
 .profile-main-screen {
-  margin: auto; /* Center the main profile screen horizontally */
+  margin: auto;
   display: flex;
   flex-direction: column;
   height: 70vh;
@@ -200,7 +188,7 @@ body {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 10px;
-  padding: 10px 30px; /* Equal padding for consistent arrow sizing */
+  padding: 10px 30px;
   background-color: #a3d6f6;
   border-radius: 10px;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
@@ -227,29 +215,28 @@ body {
 }
 
 .move-item:hover {
-    transform: scale(1.05);
+  transform: scale(1.05);
 }
 
-/* Carousel Arrows */
 .carousel-arrow {
   position: absolute;
   top: 0;
   bottom: 0;
-  width: 30px; /* Matches horizontal padding of .moves-group */
-  background-color: #a3d6f6; /* Same color as .moves-group */
+  width: 30px;
+  background-color: #a3d6f6;
   border: none;
   cursor: pointer;
-  opacity: 0; /* Hidden by default */
+  opacity: 0; 
   transition: opacity 0.3s ease;
   z-index: 2;
 }
 
 .carousel-arrow:hover {
-  opacity: 0.8; /* Slightly visible on hover */
+  opacity: 0.8;
 }
 
 .moves-group:hover .carousel-arrow {
-  opacity: 1; /* Show arrows on hover of the moves-group */
+  opacity: 1;
 }
 
 .left-arrow {
@@ -322,7 +309,10 @@ body {
 /* Responsive Design */
 @media screen and (max-width: 768px) {
   .moves-group {
-    grid-template-columns: repeat(2, 1fr); /* 2 moves per row on small screens */
+    grid-template-columns: repeat(
+      2,
+      1fr
+    );
   }
 
   .carousel-arrow {
@@ -358,20 +348,24 @@ body {
   position: relative;
 }
 
-/* Close Modal Button */
 .close-modal-button {
-  position: absolute; /* Absolute positioning within the modal */
-  top: 10px; /* Distance from the top of the modal */
-  right: 10px; /* Distance from the right of the modal */
-  background: none; /* No background */
-  border: none; /* Remove default button border */
-  font-size: 1.5rem; /* Size of the close button */
-  font-weight: bold; /* Bold text */
-  cursor: pointer; /* Pointer cursor on hover */
-  color: #333; /* Default color */
-  transition: color 0.2s ease; /* Smooth color transition */
+  position: absolute; 
+  top: 10px; 
+  right: 10px;
+  background: none; 
+  border: none;
+  font-size: 1.5rem;
+  font-weight: bold;
+  cursor: pointer;
+  color: #333;
+  transition: color 0.2s ease;
 }
 
 .close-modal-button:hover {
-  color: #aa302f; /* Highlight color on hover */
+  color: #aa302f;
+}
+
+.pokemon-profile-pic {
+  width: 300px;
+  height: 300px;
 }

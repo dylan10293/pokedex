@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams, Link, useNavigate } from "react-router-dom"; // Add useNavigate for redirection
+import { useParams, Link, useNavigate } from "react-router-dom";
 import "../styling/ProfilePage.css";
 
 const ProfilePage = () => {
@@ -80,7 +80,7 @@ const ProfilePage = () => {
         throw new Error("Failed to delete Pokémon");
       }
       alert("Pokémon deleted successfully!");
-      navigate("/search"); // Redirect to search page after deletion
+      navigate("/search");
     } catch (err) {
       console.error("Error deleting Pokémon:", err);
       alert("Failed to delete Pokémon.");
@@ -135,7 +135,7 @@ const ProfilePage = () => {
   return (
     <div className="profile-page">
       <header className="header">
-        <div className="blue-circle"></div>
+        <Link to="/add" className="blue-circle"></Link>
         <div className="top-left"></div>
         <div className="top-right"></div>
         <div className="middle">
@@ -156,7 +156,7 @@ const ProfilePage = () => {
             {/* Left Column */}
             <div className="left-column">
               <div className="poke-image">
-                <img src={`/images/${id}.png`} alt={name} />
+                <img className="pokemon-profile-pic" src={`https://d14akkxuzny5sc.cloudfront.net/${id}.png`} alt={name} />
               </div>
               <div className="poke-details">
                 <h1 className="poke-name">{name}</h1>
@@ -202,6 +202,7 @@ const ProfilePage = () => {
                   ></button>
                 </div>
               </div>
+
               {/* Stats Section */}
               <div className="stats-section">
                 <h2 className="stats-label">Stats</h2>
@@ -246,25 +247,25 @@ const ProfilePage = () => {
               <button className="close-modal-button" onClick={closeModal}>
                 &times;
               </button>
-              <h2>{moveDetails.moveName}</h2>
+              <h2>{moveDetails.moveName || "N/A"}</h2>
               <p>
-                <strong>Type:</strong> {moveDetails.typeName}
+                <strong>Type:</strong> {moveDetails.typeName || "N/A"}
               </p>
               <p>
-                <strong>Power:</strong> {moveDetails.power}
+                <strong>Power:</strong> {moveDetails.power ?? "N/A"}
               </p>
               <p>
-                <strong>Accuracy:</strong> {moveDetails.accuracy}
+                <strong>Accuracy:</strong> {moveDetails.accuracy ?? "N/A"}
               </p>
               <p>
-                <strong>PP:</strong> {moveDetails.powerPoint}
+                <strong>PP:</strong> {moveDetails.powerPoint ?? "N/A"}
               </p>
             </div>
           </div>
         )}
         <button className="delete-button" onClick={handleDeletePokemon}>
-        Delete Pokémon
-      </button>
+          Delete Pokémon
+        </button>
       </div>
     </div>
   );

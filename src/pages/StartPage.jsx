@@ -1,39 +1,22 @@
-import '../styling/StartPage.css'
+import React from 'react';
+import { Link } from 'react-router-dom';
+import '../styling/StartPage.css';
 
 const StartPage = () => {
   return (
-    <body>
-      <div className="pokedex">
-        {/* Top Bar with Buttons */}
-        <div className="top-bar">
-          <div className="blue-button"></div>
-        </div>
-        
-        {/* Main Pokedex Screen */}
-        <div className="main-screen">
-          <div className="left-panel">
-            <div className="big-screen">
-              {/* Big screen where data can be displayed */}
-            </div>
-            <div className="control-section">
-
-              <div className="control-button red"></div>
-              <div className="control-button blue"></div>
-            </div>
-          </div>
-          <div className="right-panel">
-            <div className="mini-screen"></div>
-            <div className="blue-grid">
-              {/* Blue grid area */}
-            </div>
-            <div className="green-panel">
-              {/* Green textured area */}
-            </div>
-          </div>
-        </div>
+    <div className="start-page">
+      <div className="start-page-container">
+        <img 
+          src="https://raw.githubusercontent.com/sleduardo20/pokedex/0671af442dff1d8f7141e49eb83b438885bbc9e9/public/img/logo.svg" 
+          alt="Pokedex" 
+          className="start-page-logo"
+        />
+        <Link to="/search" className="start-page-open-button">
+          <span>Open</span>
+        </Link>
       </div>
-    </body>
-  )
-}
+    </div>
+  );
+};
 
-export default StartPage
+export default StartPage;

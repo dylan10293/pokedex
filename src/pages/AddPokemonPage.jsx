@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "../styling/AddPokemonPage.css";
 import { Link } from "react-router-dom";
 
@@ -16,8 +16,13 @@ const AddPokemonPage = () => {
     const [searchQuery, setSearchQuery] = useState("");
     const [moveResults, setMoveResults] = useState([]);
     const [typeOptions, setTypeOptions] = useState([]);
+    const [speciesQuery, setSpeciesQuery] = useState("");
+    const [speciesResults, setSpeciesResults] = useState([]);
+    const [selectedSpecies, setSelectedSpecies] = useState(null);
 
-    // Fetch types from API
+    const speciesInputRef = useRef(null);
+    const movesInputRef = useRef(null);
+
     useEffect(() => {
         fetch("http://localhost:8000/types")
             .then((response) => response.json())
@@ -25,7 +30,23 @@ const AddPokemonPage = () => {
             .catch((error) => console.error("Error fetching types:", error));
     }, []);
 
-    // Fetch moves based on the search query
+    useEffect(() => {
+        if (speciesQuery.trim() === "") {
+            setSpeciesResults([]);
+            return;
+        }
+
+        fetch("http://localhost:8000/species")
+            .then((response) => response.json())
+            .then((data) => {
+                const filteredSpecies = data.filter((species) =>
+                    species.name.toLowerCase().includes(speciesQuery.toLowerCase())
+                );
+                setSpeciesResults(filteredSpecies);
+            })
+            .catch((error) => console.error("Error fetching species:", error));
+    }, [speciesQuery]);
+
     useEffect(() => {
         if (searchQuery.trim() === "") {
             setMoveResults([]);
@@ -64,8 +85,22 @@ const AddPokemonPage = () => {
         if (!moves.some((m) => m.id === move.id)) {
             setMoves([...moves, move]);
         }
-        setSearchQuery(""); // Clear the search input
-        setMoveResults([]); // Clear the search results
+        setSearchQuery("");
+        setMoveResults([]);
+    };
+
+    const handleSpeciesSearchChange = (e) => {
+        setSpeciesQuery(e.target.value);
+    };
+
+    const handleSpeciesSelect = (species) => {
+        setSelectedSpecies(species);
+        setSpeciesQuery("");
+        setSpeciesResults([]);
+    };
+
+    const handleClearSpecies = () => {
+        setSelectedSpecies(null);
     };
 
     const removeMove = (move) => {
@@ -76,20 +111,24 @@ const AddPokemonPage = () => {
         e.preventDefault();
 
         const newPokemon = {
-            pokemon_name: document.getElementById("pokemon_name").value,
-            species_id: parseInt(document.getElementById("species").value),
-            height: parseInt(document.getElementById("height").value),
-            weight: parseInt(document.getElementById("weight").value),
-            type: selectedTypes,
-            moves: moves.map((move) => move.id), // Only save move IDs
+            pokemon_name: document.getElementById("pokemon_name").value.trim(),
+            species_id: selectedSpecies?.id || null,
+            height: 10,
+            weight: 10,
+            type: selectedTypes || [],
+            moves: moves.map((move) => move.id) || [],
             stats: {
-                hp: parseInt(stats.hp),
-                attack: parseInt(stats.attack),
-                defense: parseInt(stats.defense),
-                special_attack: parseInt(stats.special_attack),
-                special_defense: parseInt(stats.special_defense),
-                speed: parseInt(stats.speed),
+                hp: parseInt(stats.hp) || 0,
+                attack: parseInt(stats.attack) || 0,
+                defense: parseInt(stats.defense) || 0,
+                special_attack: parseInt(stats.special_attack) || 0,
+                special_defense: parseInt(stats.special_defense) || 0,
+                speed: parseInt(stats.speed) || 0,
             },
+        };
+
+        const payload = {
+            pokemons: [newPokemon],
         };
 
         try {
@@ -98,24 +137,59 @@ const AddPokemonPage = () => {
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify({ pokemons: [newPokemon] }),
+                body: JSON.stringify(payload),
             });
 
+            const result = await response.json();
+
             if (response.ok) {
-                alert("Pokemon added successfully!");
+                console.log("Server Response:", result.message);
+                alert(result.message);
             } else {
-                alert("Failed to add Pokemon.");
+                console.error("Server returned an error:", result.error || result);
+                alert(`Failed to add Pokemon: ${result.error || "Unknown error"}`);
             }
         } catch (error) {
             console.error("Error adding Pokemon:", error);
-            alert("An error occurred.");
         }
     };
+
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (
+                speciesInputRef.current &&
+                !speciesInputRef.current.contains(event.target)
+            ) {
+                setSpeciesQuery("");
+                setSpeciesResults([]);
+            }
+
+            if (
+                movesInputRef.current &&
+                !movesInputRef.current.contains(event.target)
+            ) {
+                setSearchQuery("");
+                setMoveResults([]);
+            }
+        };
+
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, []);
 
     return (
         <>
             <header className="header">
-                <div className="blue-circle"></div>
+                <Link to="/add" className="blue-circle"></Link>
+                <div className="top-left"></div>
+                <div className="top-right"></div>
+                <div className="middle">
+                    <div className="middle-left"></div>
+                    <div className="diagonal"></div>
+                    <div className="middle-right"></div>
+                </div>
             </header>
 
             <div className="main-add-screen form-screen">
@@ -138,19 +212,47 @@ const AddPokemonPage = () => {
                         </div>
 
                         <div className="form-group">
-                            <label htmlFor="species">Species ID</label>
-                            <input
-                                type="number"
-                                id="species"
-                                className="add-pokemon-input"
-                                placeholder="Enter Pokémon's species ID"
-                                required
-                            />
+                            <label htmlFor="species">Species</label>
+                            <div className="add-species-container" ref={speciesInputRef}>
+                                {selectedSpecies ? (
+                                    <div className="selected-species-display">
+                                        <span>{selectedSpecies.name}</span>
+                                        <button
+                                            className="clear-species-button"
+                                            onClick={handleClearSpecies}
+                                        >
+                                            ×
+                                        </button>
+                                    </div>
+                                ) : (
+                                    <input
+                                        type="text"
+                                        id="species"
+                                        className="add-pokemon-input"
+                                        placeholder="Search and select species"
+                                        value={speciesQuery}
+                                        onChange={handleSpeciesSearchChange}
+                                    />
+                                )}
+                                {speciesResults.length > 0 && !selectedSpecies && (
+                                    <ul className="species-results-dropdown">
+                                        {speciesResults.map((species) => (
+                                            <li
+                                                key={species.id}
+                                                className="species-result-item"
+                                                onClick={() => handleSpeciesSelect(species)}
+                                            >
+                                                {species.name}
+                                            </li>
+                                        ))}
+                                    </ul>
+                                )}
+                            </div>
                         </div>
 
                         <div className="form-group">
                             <label>Moves</label>
-                            <div className="add-moves-container">
+                            <div className="add-moves-container" ref={movesInputRef}>
                                 <input
                                     type="text"
                                     className="add-move-input"
@@ -171,21 +273,21 @@ const AddPokemonPage = () => {
                                         ))}
                                     </div>
                                 )}
-                                <ul className="add-moves-list">
-                                    {moves.map((move) => (
-                                        <li key={move.id} className="add-move-item">
-                                            {move.name}
-                                            <button
-                                                type="button"
-                                                className="remove-move-button"
-                                                onClick={() => removeMove(move)}
-                                            >
-                                                ✖
-                                            </button>
-                                        </li>
-                                    ))}
-                                </ul>
                             </div>
+                            <ul className="add-moves-list">
+                                {moves.map((move) => (
+                                    <li key={move.id} className="add-move-item">
+                                        {move.name}
+                                        <button
+                                            type="button"
+                                            className="remove-move-button"
+                                            onClick={() => removeMove(move)}
+                                        >
+                                            ✖
+                                        </button>
+                                    </li>
+                                ))}
+                            </ul>
                         </div>
 
                         <div className="form-group">
@@ -208,11 +310,10 @@ const AddPokemonPage = () => {
                             <label>Stats</label>
                             <div className="add-stat-input-group">
                                 {Object.keys(stats).map((stat) => {
-                                    // Format the label: capitalize and replace underscores with spaces
                                     const formattedStat = stat
-                                        .split('_') // Split words on underscore
-                                        .map((word) => word.charAt(0).toUpperCase() + word.slice(1)) // Capitalize each word
-                                        .join(' '); // Rejoin words with a space
+                                        .split('_')
+                                        .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+                                        .join(' ');
 
                                     return (
                                         <div key={stat} className="add-stat-item">

@@ -35,86 +35,66 @@
     margin-right: 1vh;
 }
 
-.top-button.red {
-    background-color: #e74c3c;
-}
-
-.top-button.yellow {
-    background-color: #f1c40f;
-}
-
-.top-button.green {
-    background-color: #2ecc71;
-}
-
-.main-screen {
-    display: flex;
-    height: calc(100% - 10vh);
-    gap: 1vw;
-    box-sizing: border-box;
-}
-
-.left-panel {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    overflow: hidden;
-}
-
-.big-screen {
-    width: 90%;
-    height: 60%;
-    background-color: #dfe6e9;
-    border-radius: 5px;
-    margin-bottom: 2vh;
-}
-
-.control-section {
+.start-page {
     display: flex;
     justify-content: center;
-    gap: 2vh;
-}
-
-.control-button {
-    width: 3vh;
-    height: 3vh;
-    border-radius: 50%;
-}
-
-.control-button.red {
-    background-color: #e74c3c;
-}
-
-.control-button.blue {
-    background-color: #3498db;
-}
-
-.right-panel {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
     align-items: center;
-    gap: 2vh;
+    width: 100vw;
+    height: 100vh;
+}
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #aa302f; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
     overflow: hidden;
 }
 
-.mini-screen {
+.start-page-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #d14344;
     width: 90%;
-    height: 20%;
-    background-color: #dfe6e9;
-    border-radius: 5px;
+    height: 90%;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 
-.blue-grid {
-    width: 90%;
-    height: 15%;
+.start-page-title {
+    font-size: 3rem;
+    color: white;
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.start-page-open-button {
+    width: 150px;
+    height: 150px;
     background-color: #3498db;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-decoration: none;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.green-panel {
-    width: 90%;
-    height: 30%;
-    background-color: #2ecc71;
-    border-radius: 5px;
+.start-page-open-button:hover {
+    transform: scale(1.5);
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.3);
 }
+
+.start-page-logo {
+    width: 60%; 
+    max-width: 600px;
+    margin-bottom: 80px;
+  }
