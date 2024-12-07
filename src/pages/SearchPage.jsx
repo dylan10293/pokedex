@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import '../styling/SearchPage.css';
 import { Link } from 'react-router-dom';
+import { BACKEND } from '../global';
 
 const SearchPage = () => {
     const [searchTerm, setSearchTerm] = useState('');
@@ -16,7 +17,7 @@ const SearchPage = () => {
             setLoading(true);
             setError(null);
             try {
-                const response = await fetch('http://localhost:8000/pokemon');
+                const response = await fetch(`${BACKEND}/pokemon`);
                 if (!response.ok) {
                     throw new Error('Failed to fetch Pokémon data');
                 }
@@ -36,7 +37,7 @@ const SearchPage = () => {
     useEffect(() => {
         const fetchTypes = async () => {
             try {
-                const response = await fetch('http://localhost:8000/types');
+                const response = await fetch(`${BACKEND}/types`);
                 if (!response.ok) {
                     throw new Error('Failed to fetch types');
                 }

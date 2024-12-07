@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import "../styling/ProfilePage.css";
+import { BACKEND } from "../global";
 
 const ProfilePage = () => {
   const { id } = useParams();
@@ -17,7 +18,7 @@ const ProfilePage = () => {
   useEffect(() => {
     const fetchPokemonData = async () => {
       try {
-        const response = await fetch(`http://localhost:8000/pokemon/${id}`);
+        const response = await fetch(`${BACKEND}/pokemon/${id}`);
         if (!response.ok) {
           throw new Error("Failed to fetch Pokémon data");
         }
@@ -37,7 +38,7 @@ const ProfilePage = () => {
   useEffect(() => {
     const fetchTypeColors = async () => {
       try {
-        const response = await fetch(`http://localhost:8000/types`);
+        const response = await fetch(`${BACKEND}/types`);
         if (!response.ok) {
           throw new Error("Failed to fetch type colors");
         }
@@ -58,7 +59,7 @@ const ProfilePage = () => {
   // Fetch move details
   const fetchMoveDetails = async (moveId) => {
     try {
-      const response = await fetch(`http://localhost:8000/moves/${moveId}`);
+      const response = await fetch(`${BACKEND}/moves/${moveId}`);
       if (!response.ok) {
         throw new Error("Failed to fetch move details");
       }
@@ -73,7 +74,7 @@ const ProfilePage = () => {
   // Handle delete Pokémon
   const handleDeletePokemon = async () => {
     try {
-      const response = await fetch(`http://localhost:8000/pokemon/${id}`, {
+      const response = await fetch(`${BACKEND}/pokemon/${id}`, {
         method: "DELETE",
       });
       if (!response.ok) {

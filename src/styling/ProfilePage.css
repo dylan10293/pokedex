@@ -49,11 +49,11 @@ body {
 .profile-container {
   display: flex;
   flex-direction: column;
-  justify-content: space-between; 
+  justify-content: space-between;
   align-items: flex-start;
   width: 100%;
-  padding: 0 20px; 
-  position: relative; 
+  padding: 0 20px;
+  position: relative;
   margin-top: 30px;
 }
 
@@ -226,7 +226,7 @@ body {
   background-color: #a3d6f6;
   border: none;
   cursor: pointer;
-  opacity: 0; 
+  opacity: 0;
   transition: opacity 0.3s ease;
   z-index: 2;
 }
@@ -309,10 +309,7 @@ body {
 /* Responsive Design */
 @media screen and (max-width: 768px) {
   .moves-group {
-    grid-template-columns: repeat(
-      2,
-      1fr
-    );
+    grid-template-columns: repeat(2, 1fr);
   }
 
   .carousel-arrow {
@@ -349,10 +346,10 @@ body {
 }
 
 .close-modal-button {
-  position: absolute; 
-  top: 10px; 
+  position: absolute;
+  top: 10px;
   right: 10px;
-  background: none; 
+  background: none;
   border: none;
   font-size: 1.5rem;
   font-weight: bold;

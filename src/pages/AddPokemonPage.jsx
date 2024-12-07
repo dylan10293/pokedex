@@ -1,8 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
 import "../styling/AddPokemonPage.css";
 import { Link } from "react-router-dom";
+import { BACKEND } from "../global";
 
 const AddPokemonPage = () => {
+    const BACKEND = "https://localhost:8000"
     const [selectedTypes, setSelectedTypes] = useState([]);
     const [stats, setStats] = useState({
         hp: "",
@@ -19,12 +21,13 @@ const AddPokemonPage = () => {
     const [speciesQuery, setSpeciesQuery] = useState("");
     const [speciesResults, setSpeciesResults] = useState([]);
     const [selectedSpecies, setSelectedSpecies] = useState(null);
+    const [image, setImage] = useState(null);
 
     const speciesInputRef = useRef(null);
     const movesInputRef = useRef(null);
 
     useEffect(() => {
-        fetch("http://localhost:8000/types")
+        fetch(`${BACKEND}/types`)
             .then((response) => response.json())
             .then((data) => setTypeOptions(data))
             .catch((error) => console.error("Error fetching types:", error));
@@ -36,7 +39,7 @@ const AddPokemonPage = () => {
             return;
         }
 
-        fetch("http://localhost:8000/species")
+        fetch(`${BACKEND}/species`)
             .then((response) => response.json())
             .then((data) => {
                 const filteredSpecies = data.filter((species) =>
@@ -53,7 +56,7 @@ const AddPokemonPage = () => {
             return;
         }
 
-        fetch("http://localhost:8000/moves")
+        fetch(`${BACKEND}/moves`)
             .then((response) => response.json())
             .then((data) => {
                 const filteredMoves = data.filter((move) =>
@@ -107,6 +110,10 @@ const AddPokemonPage = () => {
         setMoves(moves.filter((m) => m.id !== move.id));
     };
 
+    const handleImageChange = (e) => {
+        setImage(e.target.files[0]);
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -132,7 +139,7 @@ const AddPokemonPage = () => {
         };
 
         try {
-            const response = await fetch("http://localhost:8000/pokemon", {
+            const pokemonResponse = await fetch(`${BACKEND}/pokemon`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -140,17 +147,28 @@ const AddPokemonPage = () => {
                 body: JSON.stringify(payload),
             });
 
-            const result = await response.json();
-
-            if (response.ok) {
-                console.log("Server Response:", result.message);
-                alert(result.message);
-            } else {
-                console.error("Server returned an error:", result.error || result);
-                alert(`Failed to add Pokemon: ${result.error || "Unknown error"}`);
+            if (!pokemonResponse.ok) {
+                throw new Error("Failed to add Pokemon");
             }
+
+            if (image) {
+                const formData = new FormData();
+                formData.append("image", image);
+
+                const uploadResponse = await fetch("http://18.223.252.37:8000/upload", {
+                    method: "POST",
+                    body: formData,
+                });
+
+                if (!uploadResponse.ok) {
+                    throw new Error("Image upload failed.");
+                }
+            }
+
+            alert("Pokemon added successfully!");
         } catch (error) {
-            console.error("Error adding Pokemon:", error);
+            console.error("Error:", error);
+            alert("An error occurred while adding the Pokemon.");
         }
     };
 
@@ -331,6 +349,17 @@ const AddPokemonPage = () => {
                                     );
                                 })}
                             </div>
+                        </div>
+
+                        <div className="form-group">
+                            <label htmlFor="pokemon_image">Upload Image (Optional)</label>
+                            <input
+                                type="file"
+                                id="pokemon_image"
+                                accept="image/*"
+                                className="add-pokemon-input"
+                                onChange={handleImageChange}
+                            />
                         </div>
 
                         <button type="submit" className="submit-button">
