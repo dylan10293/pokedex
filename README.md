@@ -20,17 +20,23 @@ When adding pokemon, users can add newly discovered Pokémon to the database. Th
    cd pokedex
    ```
 
-2. **Install dependencies**:
+2. **Initialize npm**
+ 
+   ```bash
+   npm init
+   ```
+
+3. **Install dependencies**:
 
    ```bash
    npm install
    ```
 
-3. **Configure backend variable**:
+4. **Configure backend variable**:
 
    - In the `global.js` file, update the BACKEND variable's value to be the url of the connected backend server
 
-4. **Run the server**:
+5. **Run the server**:
    ```bash
    npm run start
    ```
