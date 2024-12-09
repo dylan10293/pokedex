@@ -1,1 +1,1 @@
-export const BACKEND = "localhost:8000"
+export const BACKEND = "pokedexbackend-production.up.railway.app"
