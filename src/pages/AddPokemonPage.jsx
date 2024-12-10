@@ -115,9 +115,13 @@ const AddPokemonPage = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
+    
+        // Log the value of the "Name" input field
+        const pokemonName = document.getElementById("pokemon_name").value.trim();
+        console.log("Pokemon name entered:", pokemonName);
+    
         const newPokemon = {
-            pokemon_name: document.getElementById("pokemon_name").value.trim(),
+            name: pokemonName,
             species_id: selectedSpecies?.id || null,
             height: 10,
             weight: 10,
@@ -132,11 +136,11 @@ const AddPokemonPage = () => {
                 speed: parseInt(stats.speed) || 0,
             },
         };
-
-        const payload = {
-            pokemons: [newPokemon],
-        };
-
+    
+        console.log("Payload being sent:", newPokemon);
+    
+        const payload = { pokemons: [newPokemon] };
+    
         try {
             const pokemonResponse = await fetch(`${BACKEND}/pokemon`, {
                 method: "POST",
@@ -145,25 +149,13 @@ const AddPokemonPage = () => {
                 },
                 body: JSON.stringify(payload),
             });
-
+    
             if (!pokemonResponse.ok) {
+                const errorText = await pokemonResponse.text();
+                console.error("Error response from server:", errorText);
                 throw new Error("Failed to add Pokemon");
             }
-
-            if (image) {
-                const formData = new FormData();
-                formData.append("image", image);
-
-                const uploadResponse = await fetch("http://18.223.252.37:8000/upload", {
-                    method: "POST",
-                    body: formData,
-                });
-
-                if (!uploadResponse.ok) {
-                    throw new Error("Image upload failed.");
-                }
-            }
-
+    
             alert("Pokemon added successfully!");
         } catch (error) {
             console.error("Error:", error);
