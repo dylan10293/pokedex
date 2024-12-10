@@ -1,1 +1,1 @@
-export const BACKEND = "pokedexbackend-production.up.railway.app"
+export const BACKEND = "https://pokedexbackend-production.up.railway.app";
