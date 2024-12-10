@@ -64,6 +64,7 @@ const ProfilePage = () => {
         throw new Error("Failed to fetch move details");
       }
       const [details] = await response.json();
+      console.log("Move-details:", details)
       setMoveDetails(details);
       setModalOpen(true);
     } catch (err) {
@@ -248,9 +249,9 @@ const ProfilePage = () => {
               <button className="close-modal-button" onClick={closeModal}>
                 &times;
               </button>
-              <h2>{moveDetails.moveName || "N/A"}</h2>
+              <h2>{moveDetails.move_name || "N/A"}</h2>
               <p>
-                <strong>Type:</strong> {moveDetails.typeName || "N/A"}
+                <strong>Type:</strong> {moveDetails.type_name || "N/A"}
               </p>
               <p>
                 <strong>Power:</strong> {moveDetails.power ?? "N/A"}
@@ -259,7 +260,7 @@ const ProfilePage = () => {
                 <strong>Accuracy:</strong> {moveDetails.accuracy ?? "N/A"}
               </p>
               <p>
-                <strong>PP:</strong> {moveDetails.powerPoint ?? "N/A"}
+                <strong>PP:</strong> {moveDetails.power_point ?? "N/A"}
               </p>
             </div>
           </div>
