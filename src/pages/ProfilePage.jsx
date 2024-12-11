@@ -63,7 +63,7 @@ const ProfilePage = () => {
       if (!response.ok) {
         throw new Error("Failed to fetch move details");
       }
-      const [details] = await response.json();
+      const details = await response.json();
       console.log("Move-details:", details)
       setMoveDetails(details);
       setModalOpen(true);
