@@ -22,7 +22,7 @@ const ProfilePage = () => {
         if (!response.ok) {
           throw new Error("Failed to fetch Pokémon data");
         }
-        const [data] = await response.json();
+        const data = await response.json();
         setPokemonData(data);
       } catch (err) {
         setError(err.message);
