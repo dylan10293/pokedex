@@ -105,7 +105,7 @@ const ProfilePage = () => {
     name,
     species,
     moves = [],
-    type,
+    type = [],
     hp,
     attack,
     defense,
