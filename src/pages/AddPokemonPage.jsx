@@ -116,9 +116,12 @@ const AddPokemonPage = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
     
-        // Log the value of the "Name" input field
         const pokemonName = document.getElementById("pokemon_name").value.trim();
-        console.log("Pokemon name entered:", pokemonName);
+    
+        if (!pokemonName) {
+            alert("Pokemon name is required.");
+            return;
+        }
     
         const newPokemon = {
             name: pokemonName,
@@ -137,29 +140,27 @@ const AddPokemonPage = () => {
             },
         };
     
-        console.log("Payload being sent:", newPokemon);
+        const payload = { pokemon: newPokemon }; // Wrap in 'pokemon' key
     
-        const payload = { pokemons: [newPokemon] };
+        console.log("Payload being sent:", payload);
     
         try {
-            const pokemonResponse = await fetch(`${BACKEND}/pokemon`, {
+            const response = await fetch(`${BACKEND}/pokemon`, {
                 method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
+                headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(payload),
             });
     
-            if (!pokemonResponse.ok) {
-                const errorText = await pokemonResponse.text();
-                console.error("Error response from server:", errorText);
+            if (!response.ok) {
+                const errorText = await response.text();
+                console.error("Error from server:", errorText);
                 throw new Error("Failed to add Pokemon");
             }
     
             alert("Pokemon added successfully!");
         } catch (error) {
-            console.error("Error:", error);
-            alert("An error occurred while adding the Pokemon.");
+            console.error("Error adding Pokemon:", error);
+            alert("Failed to add Pokemon. Check logs for details.");
         }
     };
 
