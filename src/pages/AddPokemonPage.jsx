@@ -113,6 +113,65 @@ const AddPokemonPage = () => {
         setImage(e.target.files[0]);
     };
 
+    // const handleSubmit = async (e) => {
+    //     e.preventDefault();
+    
+    //     // Retrieve Pokémon name and validate it
+    //     const pokemonName = document.getElementById("pokemon_name").value.trim();
+    //     if (!pokemonName) {
+    //         alert("Pokemon name is required.");
+    //         return;
+    //     }
+    
+    //     // Construct the Pokémon object to match backend expectations
+    //     const newPokemon = {
+    //         name: pokemonName,
+    //         species_id: selectedSpecies?.id || null,
+    //         height: 10, // Replace with actual height input if available
+    //         weight: 10, // Replace with actual weight input if available
+    //         type: selectedTypes || [],
+    //         moves: moves.map((move) => move.id) || [],
+    //         stats: {
+    //             hp: parseInt(stats.hp) || 0,
+    //             attack: parseInt(stats.attack) || 0,
+    //             defense: parseInt(stats.defense) || 0,
+    //             special_attack: parseInt(stats.special_attack) || 0,
+    //             special_defense: parseInt(stats.special_defense) || 0,
+    //             speed: parseInt(stats.speed) || 0,
+    //         },
+    //     };
+    
+    //     // Prepare payload with 'pokemons' key for backend
+    //     const payload = { pokemons: [newPokemon] };
+    
+    //     console.log("Payload being sent:", payload);
+    
+    //     try {
+    //         // Send POST request to the backend
+    //         const response = await fetch(`${BACKEND}/pokemon`, {
+    //             method: "POST",
+    //             headers: {
+    //                 "Content-Type": "application/json",
+    //             },
+    //             body: JSON.stringify(payload),
+    //         });
+    
+    //         if (!response.ok) {
+    //             const errorText = await response.text();
+    //             console.error("Error from server:", errorText);
+    //             alert(`Failed to add Pokemon: ${errorText}`);
+    //             return;
+    //         }
+    
+    //         // Success message
+    //         alert("Pokemon added successfully!");
+    //     } catch (error) {
+    //         // Log error and notify the user
+    //         console.error("Error adding Pokemon:", error);
+    //         alert("An error occurred while adding the Pokemon. Check the logs for details.");
+    //     }
+    // };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
     
@@ -141,19 +200,16 @@ const AddPokemonPage = () => {
             },
         };
     
-        // Prepare payload with 'pokemons' key for backend
-        const payload = { pokemons: [newPokemon] };
-    
-        console.log("Payload being sent:", payload);
+        // Prepare FormData with Pokémon data and image
+        const formData = new FormData();
+        formData.append('pokemon', JSON.stringify(newPokemon));
+        formData.append('image', image); // Attach the selected image
     
         try {
             // Send POST request to the backend
             const response = await fetch(`${BACKEND}/pokemon`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(payload),
+                method: 'POST',
+                body: formData,
             });
     
             if (!response.ok) {
