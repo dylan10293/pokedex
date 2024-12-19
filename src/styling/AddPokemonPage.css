@@ -369,3 +369,60 @@ label {
 .species-result-item:hover {
   background-color: #f0f0f0;
 }
+
+/* Mobile Friendly */
+@media (max-width: 768px) {
+  .main-add-screen {
+    width: 85%;
+    margin: 5% auto;
+    padding: 1rem;
+  }
+
+  .custom-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 50px;
+  }
+
+  .type-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5rem;
+  }
+
+  .add-stat-input-group {
+    justify-content: center;
+    gap: 0.5rem;
+  }
+
+  .add-stat-item {
+    max-width: 45%; /* Ensure two items fit in one row */
+    flex: 0 1 45%;  /* Adjust flex properties for two-per-row layout */
+    border-radius: 5px;
+  }
+  
+  .add-stat-input {
+    width:90%;
+    gap: 0.5rem;
+    padding: 5px;
+    border-radius: 5px;
+  }
+
+  .add-pokemon-input {
+    width: 90%;
+  }
+
+  .add-species-container {
+    width:85%;
+  }
+
+  .add-move-input {
+    width: 90%;
+  }
+
+  .add-moves-container {
+    width: 85%;
+  }
+}

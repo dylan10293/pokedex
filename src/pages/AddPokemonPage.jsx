@@ -280,7 +280,7 @@ const AddPokemonPage = () => {
                             <input
                                 type="text"
                                 id="pokemon_name"
-                                className="add-pokemon-input"
+                                className="add-pokemon-input pokemon-name"
                                 placeholder="Enter Pokémon's name"
                                 required
                             />
