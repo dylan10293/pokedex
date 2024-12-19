@@ -118,6 +118,12 @@ body {
   border-radius: 10px;
   margin: 0 auto;
   flex-shrink: 0;
+  text-align: center;
+}
+
+.pokemon-profile-pic {
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
 .poke-details {

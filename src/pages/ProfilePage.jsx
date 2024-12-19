@@ -112,6 +112,7 @@ const ProfilePage = () => {
     special_attack,
     special_defense,
     speed,
+    image_url
   } = pokemonData;
 
   const movesPerPage = 8;
@@ -158,7 +159,15 @@ const ProfilePage = () => {
             {/* Left Column */}
             <div className="left-column">
               <div className="poke-image">
-                <img className="pokemon-profile-pic" src={`https://d14akkxuzny5sc.cloudfront.net/${id}.png`} alt={name} />
+                {image_url ? (
+                  <img
+                    className="pokemon-profile-pic"
+                    src={image_url}
+                    alt={name}
+                  />
+                ) : (
+                  <p>No image available</p>
+                )}
               </div>
               <div className="poke-details">
                 <h1 className="poke-name">{name}</h1>
