@@ -98,3 +98,11 @@ body {
     max-width: 600px;
     margin-bottom: 80px;
   }
+
+
+/* Mobile Friendly */
+@media (max-width: 768px) {
+  .start-page-container {
+    height: 80%;
+  }
+}

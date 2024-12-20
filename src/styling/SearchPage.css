@@ -275,7 +275,11 @@ body {
   }
 
   .main-list-screen {
-    max-height: 40vh;
+    max-height: 30vh;
     padding: 1vh;
-}
+    margin-bottom: 10%;
+  }
+  .blue-circle {
+    position: fixed;
+  }
 }

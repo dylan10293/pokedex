@@ -274,9 +274,11 @@ const ProfilePage = () => {
             </div>
           </div>
         )}
-        <button className="delete-button" onClick={handleDeletePokemon}>
-          Delete Pokémon
-        </button>
+  {pokemonData.id > 152 && (
+    <button className="delete-button" onClick={handleDeletePokemon}>
+      Delete Pokémon
+    </button>
+  )}
       </div>
     </div>
   );

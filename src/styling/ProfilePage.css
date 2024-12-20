@@ -384,7 +384,7 @@ body {
   .profile-main-screen {
     overflow-y: scroll;
     padding: 15px;
-    height: 75vh;
+    height: 65vh;
   }
 
   .profile-container {
