@@ -10,6 +10,7 @@ When adding pokemon, users can add newly discovered Pokémon to the database. Th
   - [Table of Contents](#table-of-contents)
   - [Setup Instructions](#setup-instructions)
   - [Technologies Used](#technologies-used)
+  - [Backend GitHub](#backend-github)
 
 ## Setup Instructions
 
@@ -48,3 +49,7 @@ When adding pokemon, users can add newly discovered Pokémon to the database. Th
 - **React**
 - **HTML/CSS**
 - **AWS**
+
+## Backend GitHub
+The following link will take you to the GitHub respository for the backend of the pokedex site:
+   - https://github.com/ericmlantz/pokedex_backend
