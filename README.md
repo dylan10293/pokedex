@@ -1,3 +1,5 @@
+Backend repo: https://github.com/dylan10293/pokedex_backend
+
 # Pokedex Frontend
 
 This Pokedex application is a dynamic and interactive platform that allows users to explore, manage, and expand their knowledge of Pokémon. The app features a sleek, user-friendly interface where users can search for Pokémon by type, view detailed profiles of individual Pokémon, and add new Pokémon to the database. The /search page lets users filter Pokémon by their types with color-coded buttons that match their elemental attributes. Clicking on a Pokémon directs the user to the pokemon's profile page, which displays comprehensive details about the Pokémon, including its stats, moves, and types. Users can also access a carousel view of moves and open a pop-up with move-specific details, ensuring a rich and immersive browsing experience.
